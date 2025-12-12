@@ -2,6 +2,18 @@ import flet as ft
 import os
 
 
+def _minimize_window(page: ft.Page):
+    """最小化窗口"""
+    page.window.minimized = True
+    page.update()
+
+
+def _maximize_window(page: ft.Page):
+    """最大化/还原窗口"""
+    page.window.maximized = not page.window.maximized
+    page.update()
+
+
 def main(page: ft.Page):
     # 设置窗口图标（在其他设置之前）
     # 尝试多个可能的路径
@@ -173,7 +185,7 @@ def main(page: ft.Page):
                             icon_size=14,
                             icon_color="#CCCCCC",
                             tooltip="最小化",
-                            on_click=lambda e: setattr(page.window, "minimized", True),
+                            on_click=lambda e: _minimize_window(page),
                             style=ft.ButtonStyle(
                                 bgcolor="transparent",
                                 overlay_color="#3C3C3C",
@@ -184,7 +196,7 @@ def main(page: ft.Page):
                             icon_size=12,
                             icon_color="#CCCCCC",
                             tooltip="最大化",
-                            on_click=lambda e: setattr(page.window, "maximized", not page.window.maximized),
+                            on_click=lambda e: _maximize_window(page),
                             style=ft.ButtonStyle(
                                 bgcolor="transparent",
                                 overlay_color="#3C3C3C",

@@ -41,6 +41,9 @@ def main(page: ft.Page):
     # 隐藏窗口标题栏
     page.window.title_bar_hidden = True
     
+    # 设置窗口居中
+    page.window.center()
+    
     page.title = "超级工具箱"
     page.padding = 0
     page.spacing = 0
@@ -84,6 +87,7 @@ def main(page: ft.Page):
                         alignment=ft.alignment.top_left,
                         bgcolor="transparent",
                         mouse_cursor=ft.MouseCursor.CLICK,
+                        shadow_color="transparent",
                     ),
                     controls=[
                         ft.SubmenuButton(

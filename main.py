@@ -38,12 +38,34 @@ def main(page: ft.Page):
     def on_menu_click(e):
         print(f"菜单项被点击: {e.control.text}")
     
+    # 加载logo图片
+    logo_path = None
+    logo_paths = ["assets/logo.png", "assets/logo.svg", "logo.png", "logo.svg"]
+    for path in logo_paths:
+        if os.path.exists(path):
+            logo_path = path
+            break
+    
+    # 创建顶部栏（标题栏 + 菜单栏在同一行）
+    top_bar_controls = []
+    
+    # 添加Logo图标（如果存在）
+    if logo_path:
+        top_bar_controls.append(
+            ft.Image(
+                src=logo_path,
+                width=20,
+                height=20,
+                fit=ft.ImageFit.CONTAIN,
+            )
+        )
+        # Logo和菜单之间的间距
+        top_bar_controls.append(ft.Container(width=8))
+    
     # 创建顶部栏（标题栏 + 菜单栏在同一行）
     top_bar = ft.Container(
         content=ft.Row(
-            controls=[
-                # 应用标题
-                ft.Text("超级工具箱", size=13, color="#CCCCCC"),
+            controls=top_bar_controls + [
                 # 菜单栏
                 ft.MenuBar(
                     style=ft.MenuStyle(

@@ -10,7 +10,6 @@
 
 build
 dist
-!SuperTools.spec
 
 # Python相关
 __pycache__/
@@ -30,10 +29,8 @@ venv.bak/
 # PyInstaller打包相关
 build/              # PyInstaller构建目录
 dist/                # 打包输出的exe文件
-*.spec               # 自动生成的spec文件（保留SuperTools.spec作为模板）
-
-# 但保留主要的spec文件作为模板（如果需要）
-# !SuperTools.spec
+*.spec
+!SuperTools.spec
 
 # 日志和临时文件
 *.log

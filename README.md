@@ -9,7 +9,7 @@
 python main.py
 
 - 更新版本号
-python update_version.py 1.0.2
+python update_version.py 1.0.3
 
 - 打包
 python build_exe.py

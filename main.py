@@ -1,5 +1,6 @@
 import flet as ft
 import os
+import sys
 
 
 def _minimize_window(page: ft.Page):
@@ -14,12 +15,29 @@ def _maximize_window(page: ft.Page):
     page.update()
 
 
+def get_resource_path(relative_path):
+    """
+    获取资源文件的绝对路径
+    在PyInstaller打包后，资源文件会被解压到临时目录
+    """
+    try:
+        # PyInstaller打包后的临时目录
+        base_path = sys._MEIPASS
+    except Exception:
+        # 开发环境，使用当前脚本所在目录
+        base_path = os.path.abspath(os.path.dirname(__file__))
+    
+    return os.path.join(base_path, relative_path)
+
+
 def main(page: ft.Page):
     # 设置窗口图标（在其他设置之前）
-    # 尝试多个可能的路径，使用绝对路径确保能找到文件
+    # 尝试多个可能的路径，优先使用PyInstaller资源路径
     icon_paths = [
-        os.path.abspath("assets/logo.ico"),  # assets目录中的图标（绝对路径）
-        os.path.abspath("logo.ico"),  # 根目录中的图标（绝对路径）
+        get_resource_path("assets/logo.ico"),  # PyInstaller打包后的路径
+        get_resource_path("logo.ico"),  # 根目录中的图标（打包后）
+        os.path.abspath("assets/logo.ico"),  # 开发环境：assets目录中的图标
+        os.path.abspath("logo.ico"),  # 开发环境：根目录中的图标
         "assets/logo.ico",  # 相对路径
         "logo.ico",  # 相对路径
     ]
@@ -59,7 +77,18 @@ def main(page: ft.Page):
     
     # 加载logo图片
     logo_path = None
-    logo_paths = ["assets/logo.png", "assets/logo.svg", "logo.png", "logo.svg"]
+    logo_paths = [
+        get_resource_path("assets/logo.png"),  # PyInstaller打包后的路径
+        get_resource_path("assets/logo.svg"),
+        get_resource_path("logo.png"),
+        get_resource_path("logo.svg"),
+        os.path.abspath("assets/logo.png"),  # 开发环境路径
+        os.path.abspath("assets/logo.svg"),
+        "assets/logo.png",  # 相对路径
+        "assets/logo.svg",
+        "logo.png",
+        "logo.svg",
+    ]
     for path in logo_paths:
         if os.path.exists(path):
             logo_path = path

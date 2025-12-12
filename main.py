@@ -16,18 +16,22 @@ def _maximize_window(page: ft.Page):
 
 def main(page: ft.Page):
     # 设置窗口图标（在其他设置之前）
-    # 尝试多个可能的路径
+    # 尝试多个可能的路径，使用绝对路径确保能找到文件
     icon_paths = [
-        "assets/logo.ico",  # assets目录中的图标（推荐）
-        "logo.ico",  # 根目录中的图标
+        os.path.abspath("assets/logo.ico"),  # assets目录中的图标（绝对路径）
+        os.path.abspath("logo.ico"),  # 根目录中的图标（绝对路径）
+        "assets/logo.ico",  # 相对路径
+        "logo.ico",  # 相对路径
     ]
     
     icon_set = False
     for icon_path in icon_paths:
         if os.path.exists(icon_path):
             try:
-                page.window.icon = icon_path
-                print(f"✓ 已设置窗口图标: {icon_path}")
+                # 使用绝对路径
+                abs_path = os.path.abspath(icon_path)
+                page.window.icon = abs_path
+                print(f"✓ 已设置窗口图标: {abs_path}")
                 icon_set = True
                 break
             except Exception as e:
